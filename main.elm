@@ -1,43 +1,47 @@
-import Html exposing (..)
+import Html exposing (Html, div, h1, form, text, input, button)
 import Html.Attributes exposing(..)
 import Html.Events exposing(..)
 import Browser 
 
-main =
-    Browser.sandbox { init = init, update = update, view = view }
-    
+type alias Model = Int
 
---MODEL 
-type alias Model = 
-  {valorInserido: String
-   ,valorConvertido: String 
-  }
-
-init : Model
-init = 
-  {valorInserido = "" 
-  , valorConvertido = ""
-  }
-
---MENSAGEM
-type Msg = 
-  ValorInserido String
-  |ValorConvertido String
-
---UPDATE
-update: Msg -> Model -> Model
-update msg model = 
-  case msg of 
-    ValorInserido valorInserido -> 
-      { model | valorInserido = valorInserido }
-    ValorConvertido valorConvertido ->
-      { model | valorConvertido = valorConvertido }
+type alias Conversao = { valorInserido : String , valorConvertido : String }
 
 
---VIEW
-view : Model -> Html Msg 
-view model =
-   div []
-    [ div [] [text model.valorInserido ] []
-    --, button [onClick ValorInserido] [text "ok"]
-    ]
+init : Conversao 
+init = { valorInserido = "" , valorConvertido = "" }
+
+update : msg -> Conversao -> Conversao
+update msg model = init
+
+main = Browser.sandbox { init = init, update = update, view = view }
+        
+
+view : Conversao -> Html msg
+view user =
+    div []
+        [ h1 [] [ text "Cambio Facil" ]
+        , Html.form []
+            [ div []
+                [ text "Seleciona Moeda"
+                , input
+                    [ id "name"
+                    , type_ "text"
+                    ]
+                    []
+                ]
+            , div []
+                [ text "Converter Para"
+                , input
+                    [ id "email"
+                    , type_ "email"
+                    ]
+                    []
+                ]
+            , div []
+                [ button
+                    [ type_ "submit" ]
+                    [ text "Converter" ]
+                ]
+            ]
+        ]
